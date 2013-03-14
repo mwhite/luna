@@ -44,10 +44,6 @@ class TestSuiteRunner(DjangoTestSuiteRunner):
             suite = _build_suite(*args, **kwargs)
             return _filter_suite(suite)
 
-        exclude_apps = settings.SELENIUM_SETUP.get('EXCLUDE_APPS', [])
-        test_labels = [l for l in test_labels
-                       if all(not l.startswith(app) for app in exclude_apps)]
-
         import django.test.simple
         orig_test_module = django.test.simple.TEST_MODULE
         django.test.simple.TEST_MODULE = SELENIUM_TEST_MODULE
