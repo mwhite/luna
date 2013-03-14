@@ -19,8 +19,7 @@ class TestSuiteRunner(DjangoTestSuiteRunner):
     def build_suite(self, test_labels, *args, **kwargs):
         """
         Override the default test suite builder to exclude doctests, use
-        'tests.selenium' as the test module path, allow excluding the tests of
-        any apps contained in settings.SELENIUM['EXCLUDE_APPS'].
+        'tests.selenium' as the test module path.
 
         """
         from django.test.simple import (unittest, build_test, get_app,
@@ -61,9 +60,7 @@ class TestSuiteRunner(DjangoTestSuiteRunner):
                         suite.addTest(build_suite(app))
             else:
                 for app in get_apps():
-                    name = app.__name__
-                    if all(('.%s' % a) not in name for a in exclude_apps):
-                        suite.addTest(build_suite(app))
+                    suite.addTest(build_suite(app))
 
             return reorder_suite(suite, (TestCase,))
 
